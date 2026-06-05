@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEEKERS - Professional Platform</title>
+    <link rel="stylesheet" href="p2.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <div class="logo"></div>
+            <span class="reddit-text">SEEKERS</span>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="global-search-bar" placeholder="Find anything" oninput="executeGlobalSearch()">
+                <button class="btn-ask" onclick="toggleChatbot()">✨ Ask</button>
+            </div>
+        </div>
+        <div class="nav-actions" id="nav-auth-container">
+            </div>
+    </nav>
+
+    <div class="app-container">
+        
+        <aside class="sidebar left-sidebar">
+            <ul class="nav-links">
+                <li id="nav-home" class="active" onclick="switchPage('home')">🏠 Home</li>
+                <li id="nav-profile" onclick="switchPage('profile')">👤 My Profile</li>
+                <li id="nav-chat" onclick="switchPage('chat')">💬 Chat</li>
+                <li id="nav-groupchat" onclick="switchPage('groupchat')">🏘️ Group Chat</li>
+                <li id="nav-popular" onclick="switchPage('popular')">↗️ Popular</li>
+                <li id="nav-news" onclick="switchPage('news')">📰 News</li>
+                <li id="nav-explore" onclick="switchPage('explore')">🌐 Explore</li>
+                <li id="nav-gaming" onclick="switchPage('gaming')">🎮 Gaming</li>
+                <li id="nav-tech" onclick="switchPage('tech')">👨‍💻 Tech & Coding</li>
+                <li id="nav-memes" onclick="switchPage('memes')">😹 Memes</li>
+            </ul>
+            
+            <div class="divider"></div>
+            <h4>RESOURCES</h4>
+            <ul class="nav-links small">
+                <li id="nav-about" onclick="switchPage('about')"><span class="icon">🛸</span> About SEEKERS</li>
+                <li id="nav-advertise" onclick="switchPage('advertise')"><span class="icon">📢</span> Advertise</li>
+                <li id="nav-dev" onclick="switchPage('dev')"><span class="icon">💻</span> Developer Platform</li>
+                <li id="nav-pro" onclick="switchPage('pro')"><span class="icon">🛡️</span> SEEKERS Pro <span class="beta-tag">BETA</span></li>
+                <li id="nav-help" onclick="switchPage('help')"><span class="icon">❓</span> Help</li>
+                <li id="nav-blog" onclick="switchPage('blog')"><span class="icon">📝</span> Blog</li>
+                <li id="nav-careers" onclick="switchPage('careers')"><span class="icon">💼</span> Careers</li>
+                <li id="nav-press" onclick="switchPage('press')"><span class="icon">🎤</span> Press</li>
+                <li id="nav-policy" onclick="switchPage('policy')"><span class="icon">📜</span> Content Policy</li>
+                <li id="nav-best" onclick="switchPage('best')"><span class="icon">🏆</span> Best of SEEKERS</li>
+                <li id="nav-settings" onclick="switchPage('settings')"><span class="icon">⚙️</span> Settings</li>
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            
+            <div id="page-home" class="page-view active-page">
+                <div class="feed-controls">
+                    <button class="feed-btn">Best ⌄</button>
+                    <button class="feed-btn">Everywhere ⌄</button>
+                </div>
+                <div class="create-post-box">
+                    <div class="avatar-small" id="post-avatar">U</div>
+                    <input type="text" id="post-title-input" placeholder="Title of your post..." required>
+                    <input type="text" id="post-body-input" placeholder="Create Post..." required>
+                    <button class="btn-submit" onclick="submitNewPost('home')">Post</button>
+                </div>
+                <div id="feed-container"></div>
+            </div>
+
+            <div id="page-profile" class="page-view">
+                <div class="personal-profile-card">
+                    <div class="profile-banner-bg"></div>
+                    <button class="edit-profile-btn" onclick="openEditProfileModal()">✏️</button>
+                    <div class="profile-content">
+                        <div class="profile-avatar-large" id="my-profile-avatar">U</div>
+                        <div class="profile-header-row">
+                            <h1 id="my-profile-name">Username</h1>
+                            <span id="my-profile-pronouns" class="pronouns-tag">Pronouns</span>
+                        </div>
+                        <p id="my-profile-bio" class="profile-bio-text">Your bio will appear here.</p>
+                        <div class="profile-meta-row">
+                            <span id="my-profile-location">Location</span> · 
+                            <a href="#" id="my-profile-email" class="profile-email-link">Email</a>
+                        </div>
+                        <p class="connections-count" id="my-connections-count">168 connections</p>
+                        <div class="profile-action-buttons">
+                            <button class="btn-profile-primary">Open to</button>
+                            <button class="btn-profile-outline">Add profile section</button>
+                            <button class="btn-profile-outline">Enhance profile</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <h3>Analytics</h3>
+                    <p style="font-size:12px; color:#5c5c5c; margin-bottom: 12px;">👁️ Private to you</p>
+                    <div class="analytics-grid">
+                        <div><strong id="analytics-views">39</strong> profile views</div>
+                        <div><strong id="analytics-impressions">387</strong> post impressions</div>
+                        <div><strong>3</strong> search appearances</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-community-view" class="page-view">
+                <div class="profile-hub-card">
+                    <div class="profile-hub-banner" id="hub-banner-bg"></div>
+                    <div class="profile-hub-details">
+                        <div style="display: flex; gap: 16px; align-items: flex-end; margin-top: -30px; padding: 0 16px;">
+                            <div class="avatar" id="hub-avatar" style="width:60px; height:60px; border: 3px solid white; font-size: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">C</div>
+                            <div>
+                                <h2 id="hub-title" style="font-size: 24px; font-weight: 800;">r/id-name</h2>
+                                <span id="hub-meta-stats" style="font-size: 13px; color:#5c5c5c;">0 members</span>
+                            </div>
+                        </div>
+                        <div style="padding: 16px; margin-top: 10px; border-top: 1px solid #EDEFF1;">
+                            <h3 style="font-size: 14px; text-transform: uppercase; color: #878A8C; letter-spacing: 0.5px; margin-bottom: 6px;">Description</h3>
+                            <p id="hub-description" style="font-size: 14px; line-height: 1.5; color: #3c3c3c; margin-bottom: 16px;">About text goes here.</p>
+                            <h3 style="font-size: 14px; text-transform: uppercase; color: #878A8C; letter-spacing: 0.5px; margin-bottom: 6px;">Administrators / Run By</h3>
+                            <p id="hub-moderators" style="font-size: 14px; font-weight: 600; color: #1c1c1c;"></p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-login" style="margin-top:16px;" onclick="switchPage('home')">← Back to Feed</button>
+            </div>
+
+            <div id="page-chat" class="page-view">
+                <div class="chat-layout">
+                    <div class="chat-sidebar">
+                        <div class="add-friend-box">
+                            <input type="text" id="new-friend-input" placeholder="Search user..." autocomplete="off">
+                            <button onclick="openUserActionMenu('dm')">Search</button>
+                        </div>
+                        <h4 style="margin: 12px 0; font-size: 12px; color: #878A8C;">DIRECT MESSAGES</h4>
+                        <ul id="friends-list" class="contact-list"></ul>
+                    </div>
+                    <div class="chat-window">
+                        <div class="chat-header" id="chat-header-title">Select a friend to start chatting</div>
+                        <div class="chat-messages" id="dm-messages-container"></div>
+                        <div class="chat-input-area">
+                            <input type="text" id="dm-message-input" placeholder="Type a message..." disabled onkeypress="if(event.key === 'Enter') sendDM()">
+                            <button id="btn-send-dm" onclick="sendDM()" disabled>Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-groupchat" class="page-view">
+                <div class="chat-layout">
+                    <div class="chat-sidebar">
+                        <div class="add-friend-box">
+                            <input type="text" id="new-group-member-input" placeholder="Search user..." autocomplete="off">
+                            <button onclick="openUserActionMenu('group')">Search</button>
+                        </div>
+                        <h4 style="margin: 12px 0; font-size: 12px; color: #878A8C;">COMMUNITY MEMBERS</h4>
+                        <ul id="group-members-list" class="contact-list"></ul>
+                    </div>
+                    <div class="chat-window" style="width: 100%;">
+                        <div class="chat-header">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div id="groupchat-header-icon" style="background:#5865F2; color:white; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size: 12px;">👾</div>
+                                <strong id="groupchat-header-title">r/indiasocial - Community Lounge</strong>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="group-messages-container"></div>
+                        <div class="chat-input-area">
+                            <input type="text" id="group-message-input" placeholder="Message the community..." onkeypress="if(event.key === 'Enter') sendGroupMessage()">
+                            <button onclick="sendGroupMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-gaming" class="page-view">
+                <div style="background: #1c1c1c; color: white; padding: 24px; border-radius: 12px; margin-bottom: 20px;">
+                    <h1 style="margin-bottom: 8px;">Esports & Gaming Hub</h1>
+                    <p style="font-size: 14px; color: #A0A0A0;">Select a World Champion game to join the live global group chat.</p>
+                </div>
+                <div class="game-grid">
+                    <div class="game-card" onclick="openDedicatedGroupChat('BGMI')"><div class="game-icon-large">🪖</div><strong>BGMI</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('Valorant')"><div class="game-icon-large">🎯</div><strong>Valorant</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('CSGO')"><div class="game-icon-large">🔫</div><strong>CS:GO / CS2</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('LoL')"><div class="game-icon-large">🧙‍♂️</div><strong>League of Legends</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('Dota2')"><div class="game-icon-large">🛡️</div><strong>Dota 2</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('Minecraft')"><div class="game-icon-large">⛏️</div><strong>Minecraft</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('Fortnite')"><div class="game-icon-large">🚌</div><strong>Fortnite</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('Apex')"><div class="game-icon-large">🏃‍♂️</div><strong>Apex Legends</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('CoD')"><div class="game-icon-large">🎖️</div><strong>Call of Duty</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('FreeFire')"><div class="game-icon-large">🔥</div><strong>Free Fire</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('Overwatch')"><div class="game-icon-large">🦍</div><strong>Overwatch 2</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('PUBG')"><div class="game-icon-large">🍳</div><strong>PUBG PC</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('RocketLeague')"><div class="game-icon-large">🚗</div><strong>Rocket League</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('R6')"><div class="game-icon-large">🔨</div><strong>Rainbow 6 Siege</strong></div>
+                    <div class="game-card" onclick="openDedicatedGroupChat('Genshin')"><div class="game-icon-large">✨</div><strong>Genshin Impact</strong></div>
+                </div>
+            </div>
+
+            <div id="page-popular" class="page-view">
+                <div class="resource-hero" style="background: linear-gradient(135deg, #ff4500, #ff8c00);">
+                    <h2>↗️ Trending Architecture Nodes</h2>
+                    <p>Displaying entries that cross premium computational community votation caps.</p>
+                </div>
+                <div id="popular-feed-container"></div>
+            </div>
+
+            <div id="page-news" class="page-view">
+                <h2>📰 Verified Platform Broadcast Wire</h2>
+                <p style="color:#5c5c5c; margin-bottom:16px;">Real-time technology, science, and community indexes.</p>
+                <div class="news-wire-grid" id="news-wire-container"></div>
+            </div>
+
+            <div id="page-explore" class="page-view">
+                <h2>🌐 Discover Alternative Architectural Hubs</h2>
+                <p style="color:#5c5c5c; margin-bottom:16px;">Join new operational sectors to expand your personal client tracking layout.</p>
+                <div class="explore-directory-grid" id="explore-directory-container"></div>
+            </div>
+
+            <div id="page-tech" class="page-view">
+                <div style="background: #0f172a; color: #38bdf8; padding: 20px; border-radius: 12px; font-family: monospace; border: 1px solid #1e293b; margin-bottom: 20px;">
+                    <h3>// SYSTEM_WORKSPACE: EXECUTE_SCRIPTS</h3>
+                    <p style="color:#94a3b8; font-size:13px; margin-top:4px;">Niche pipeline for developer compilation post data and scripts.</p>
+                </div>
+                
+                <div class="resource-card" style="border: 1px solid #334155; background: #1e293b;">
+                    <h4 style="color:#f8fafc; font-family:monospace; margin-bottom:10px;">⚡ Quick JavaScript Executor Terminal</h4>
+                    <textarea id="sandbox-code-input" class="auth-input" style="height: 80px; font-family: monospace; background:#0f172a; color:#4ade80; border-color:#334155;" placeholder="console.log('Hello Seeker PM');"></textarea>
+                    <button class="btn-profile-primary" style="background:#38bdf8; color:#0f172a;" onclick="runSandboxCode()">Execute Log</button>
+                    <div id="sandbox-output" style="margin-top:10px; padding:10px; background:#0f172a; color:#e2e8f0; font-family:monospace; font-size:12px; border-radius:6px; min-height:24px; border:1px solid #334155;">Output log trace ready...</div>
+                </div>
+
+                <div class="create-post-box" style="margin-top:20px;">
+                    <div class="avatar-small">Dev</div>
+                    <input type="text" id="tech-title-input" placeholder="Coding thread title...">
+                    <input type="text" id="tech-body-input" placeholder="Paste structural script context...">
+                    <button class="btn-submit" onclick="submitNewPost('tech')">Compile</button>
+                </div>
+                <div id="tech-feed-container"></div>
+            </div>
+
+            <div id="page-memes" class="page-view">
+                <h2>😹 Culture Meme Generation Sandbox</h2>
+                <p style="color:#5c5c5c; margin-bottom:16px;">Review architectural humor or construct your own template overlay below.</p>
+                
+                <div class="resource-card" style="display:flex; gap:16px; align-items:flex-start;">
+                    <div style="flex:1;">
+                        <label style="font-size:12px; font-weight:bold;">Top / Center Text Overlay</label>
+                        <input type="text" id="meme-text-field" class="auth-input" value="WHEN COMPILER RUNS SUCCESSFULLY" oninput="drawMemeCanvas()">
+                        <label style="font-size:12px; font-weight:bold;">Select Template Matrix</label>
+                        <select id="meme-template-select" class="auth-input" onchange="drawMemeCanvas()" style="background:white;">
+                            <option value="💻">Developer Coding Matrix</option>
+                            <option value="🔥">Server Flame Crash</option>
+                            <option value="🚀">Production Ship Launch</option>
+                        </select>
+                    </div>
+                    <div style="background:#f1f5f9; padding:8px; border-radius:8px; display:flex; justify-content:center;">
+                        <canvas id="memeCanvas" width="220" height="180" style="background:white; border:1px solid #cbd5e1; border-radius:4px;"></canvas>
+                    </div>
+                </div>
+
+                <div class="create-post-box" style="margin-top:20px;">
+                    <div class="avatar-small">😹</div>
+                    <input type="text" id="meme-title-input" placeholder="Meme Title...">
+                    <input type="text" id="meme-body-input" placeholder="Describe context or insert caption emoji...">
+                    <button class="btn-submit" onclick="submitNewPost('memes')">Post Meme</button>
+                </div>
+                <div id="memes-feed-container"></div>
+            </div>
+
+            <div id="page-about" class="page-view">
+                <div class="resource-hero">
+                    <h2>🛸 Navigating the Frontier of Human Connection</h2>
+                    <p>SEEKERS is an autonomous, decentralized knowledge indexing ecosystem designed to bypass corporate algorithmic distortion.</p>
+                </div>
+                <div class="resource-card">
+                    <h3>The Infrastructure</h3>
+                    <p>Built as a zero-latency single-page application engine utilizing direct asynchronous event hooks and independent memory caches.</p>
+                    <div class="analytics-grid" style="margin-top:16px;">
+                        <div>export <strong>99.99%</strong> Node Uptime</div>
+                        <div>cache <strong>0.0ms</strong> Sync Delay</div>
+                        <div>topology <strong>Pure</strong> Peer Architecture</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-advertise" class="page-view">
+                <div class="resource-hero" style="background: linear-gradient(135deg, #4A00E0, #8E2DE2);">
+                    <h2>📢 Deploy High-Yield Developer Campaigns</h2>
+                    <p>Intercept premium engineering mindshare directly within specific technological sub-hubs.</p>
+                </div>
+                <div class="resource-card">
+                    <h3>Configure Direct Campaign Instance</h3>
+                    <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
+                        <input type="text" id="ad-title" class="auth-input" placeholder="Campaign Headline Title" style="margin-bottom:0;">
+                        <select id="ad-target" class="auth-input" style="margin-bottom:0; background:white;">
+                            <option value="tech">Target Category: Tech & Coding</option>
+                            <option value="gaming">Target Category: Esports & Gaming</option>
+                            <option value="memes">Target Category: General Culture</option>
+                        </select>
+                        <input type="number" id="ad-budget" class="auth-input" placeholder="Daily Budget Cap ($ USD)" style="margin-bottom:0;">
+                        <button class="btn-google-continue" onclick="executeAdLaunch()">Initialize Smart-Contract Campaign</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-dev" class="page-view">
+                <div class="resource-hero" style="background:#111; border: 1px solid #333;">
+                    <h2>💻 Core API Access Gateway</h2>
+                    <p>Build downstream client applications, automation bots, and data analytic models off the SEEKERS engine.</p>
+                </div>
+                <div class="resource-card">
+                    <h3>Generate New Application Credentials</h3>
+                    <p style="font-size:13px; color:#5c5c5c; margin-bottom:12px;">Instantly mint cryptographically safe access hooks for your local Python algorithms.</p>
+                    <button class="btn-profile-primary" onclick="generateDeveloperToken()">Generate OAuth App ID</button>
+                    <div id="dev-credentials-display" style="display:none; margin-top:16px; padding:12px; background:#F8F9FA; border-radius:8px; border:1px solid #EDEFF1; font-family:monospace; font-size:12px;">
+                        <p style="color:#0A66C2;">// CLIENT_ID:</p>
+                        <div id="dev-client-id" style="margin-bottom:8px; color:#1c1c1c; font-weight:bold;"></div>
+                        <p style="color:#0A66C2;">// CLIENT_SECRET_KEY:</p>
+                        <div id="dev-client-secret" style="color:#1c1c1c; font-weight:bold;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-pro" class="page-view">
+                <div class="resource-hero" style="background: linear-gradient(135deg, #111, #333);">
+                    <h2>🛡️ Unleash SEEKERS Pro <span class="beta-tag">BETA</span></h2>
+                    <p>Unlock localized model execution profiles, advanced cryptographic styling modifiers, and unlimited neural network endpoints.</p>
+                </div>
+                <div class="pro-tier-grid">
+                    <div class="pro-tier-card">
+                        <h3>Standard Seeker</h3>
+                        <div class="price">$0<span>/forever</span></div>
+                        <ul class="pro-features-list">
+                            <li>✓ Standard API Pipeline Latency</li>
+                            <li>✓ Global General Chat Allocation</li>
+                            <li>✓ Classic Light Theme Shell</li>
+                        </ul>
+                        <button class="btn-profile-outline" style="width:100%;" disabled>Current Engine Active</button>
+                    </div>
+                    <div class="pro-tier-card premium-tier">
+                        <h3>Pro Operator</h3>
+                        <div class="price">$15<span>/mo</span></div>
+                        <ul class="pro-features-list">
+                            <li>✓ Zero-Throttling Gemini API Route</li>
+                            <li>✓ Priority Local Storage DB Profiling</li>
+                            <li>✓ Unlimited Isolated Gaming Chat-Rooms</li>
+                        </ul>
+                        <button class="btn-google-continue" onclick="processProUpgrade()">Upgrade Instance</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-help" class="page-view">
+                <h2>❓ Knowledge Base & Diagnostics</h2>
+                <input type="text" id="faq-search" class="auth-input" placeholder="Search operational mechanics..." oninput="filterFaqKnowledgebase()" style="margin: 16px 0;">
+                
+                <div class="faq-container">
+                    <div class="faq-item" onclick="toggleFaqAccordion(this)">
+                        <div class="faq-question">Why is SeekerBot returning connection exceptions? <span>+</span></div>
+                        <div class="faq-answer">This typically points to an authentication failure or network route blocking. Verify that your API token inside your local file named <code>config.json</code> matches verbatim with Google AI Studio and restart <code>p.py</code>.</div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaqAccordion(this)">
+                        <div class="faq-question">How do the isolated gaming rooms preserve system state? <span>+</span></div>
+                        <div class="faq-answer">Every individual chat channel uses independent data hashes array blocks mapped to an active pointer. Your data remains split as you alternate layouts.</div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaqAccordion(this)">
+                        <div class="faq-question">How do I clear local session caches completely? <span>+</span></div>
+                        <div class="faq-answer">You can clear active data sets immediately by executing a logout loop sequence or clicking "Wipe Identity" in Settings.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-blog" class="page-view">
+                <h2>📝 Developer & Operations Dispatch</h2>
+                <div class="blog-grid" style="margin-top:16px;">
+                    <div class="blog-post-card">
+                        <div class="blog-date">JUNE 05, 2026</div>
+                        <h4>Architecting Dynamic Communication Pipes</h4>
+                        <p>An inside look at how we migrated our global room engine into 15 isolated communication pipelines mapping cleanly via dynamic arrays.</p>
+                    </div>
+                    <div class="blog-post-card">
+                        <div class="blog-date">MAY 24, 2026</div>
+                        <h4>Securing Critical API Configurations</h4>
+                        <p>Why hardcoding string parameters natively is an organizational security threat, and how JSON segregation preserves architecture integrity.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-careers" class="page-view">
+                <h2>💼 Open Engineering Directives</h2>
+                <p style="color:#5c5c5c; margin-bottom:16px;">Help us scale the next evolution of peer-to-peer data layout trees. Remote execution allowed.</p>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div class="job-card">
+                        <div>
+                            <strong>Core Backend System Architect</strong>
+                            <p style="font-size:12px; color:#5c5c5c;">Python / Flask / Distributed Storage Architecture</p>
+                        </div>
+                        <button class="btn-profile-primary" onclick="submitJobApplication('Backend Architect')">Apply Position</button>
+                    </div>
+                    <div class="job-card">
+                        <div>
+                            <strong>Frontend UX Interaction Specialist</strong>
+                            <p style="font-size:12px; color:#5c5c5c;">Vanilla Architecture / Dynamic DOM Mutation Engines</p>
+                        </div>
+                        <button class="btn-profile-primary" onclick="submitJobApplication('Frontend Specialist')">Apply Position</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-press" class="page-view">
+                <h2>🎤 Media Assets & Public Identity Kits</h2>
+                <div class="resource-card" style="margin-top:16px;">
+                    <h3>Brand Representation Package</h3>
+                    <p>Access authorized scalar logo layouts, official color maps, and operational capability sheets for press deployment.</p>
+                    <button class="btn-profile-outline" style="margin-top:12px;" onclick="alert('Asset distribution server active: Downloading press_kit_2026.zip')">📥 Download Asset Manifest</button>
+                </div>
+            </div>
+
+            <div id="page-policy" class="page-view">
+                <h2>📜 Platform Protocol Agreements</h2>
+                <div class="resource-card" style="margin-top:16px; line-height:1.6; max-height:400px; overflow-y:auto; font-size:14px; color:#3c3c3c;">
+                    <strong>1. Core Structural Decorum</strong><p>Platform operators must not flood runtime communication channels with machine-generated loop data blocks.</p><br>
+                    <strong>2. Identity Preservations</strong><p>Spoofing system hashes or claiming user identity strings belonging to authenticated operators is ground for complete runtime lease suspension.</p><br>
+                    <strong>3. API Interface Throttling</strong><p>Downstream automation applications must observe a minimum wait period of 100ms per transaction loop block to keep the network stable.</p>
+                </div>
+            </div>
+
+            <div id="page-best" class="page-view">
+                <h2>🏆 Hall of Fame Archive</h2>
+                <p style="color:#5c5c5c; margin-bottom:16px;">The highest-voted technical and culture records ever processed by our indices.</p>
+                <div id="best-of-container">
+                    <div class="post-card" style="border-left: 4px solid #FFD700;">
+                        <div class="post-header"><span class="subreddit-name">r/tech&coding</span> · 245 Days Ago</div>
+                        <h2 class="post-title">We successfully bypassed external API throttling hooks with local proxy arrays!</h2>
+                        <p class="post-body">Full breakdown of structural logic inside, showing how independent environment pointers preserve continuous connection blocks.</p>
+                        <div class="post-footer"><div class="action-pill vote-pill"><span>⇧ 4,281 Votes ⇩</span></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-settings" class="page-view">
+                <h2>⚙️ Core Interface Configurations</h2>
+                <div class="resource-card" style="margin-top:16px; display:flex; flex-direction:column; gap:20px;">
+                    <div class="settings-control-row">
+                        <div>
+                            <strong>Platform Dark Interface</strong>
+                            <p style="font-size:12px; color:#5c5c5c;">Invert layout layers to minimize display power load.</p>
+                        </div>
+                        <label class="theme-switch-shell">
+                            <input type="checkbox" id="dark-mode-checkbox" onchange="executeThemeMutation()">
+                            <span class="theme-switch-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-control-row">
+                        <div>
+                            <strong>Realtime Push Subscriptions</strong>
+                            <p style="font-size:12px; color:#5c5c5c;">Allow system threads to flash windows upon direct message incoming data.</p>
+                        </div>
+                        <label class="theme-switch-shell">
+                            <input type="checkbox" checked onclick="alert('Notification permissions synchronized.')">
+                            <span class="theme-switch-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-control-row" style="border-top: 1px solid #EDEFF1; padding-top:16px;">
+                        <div>
+                            <strong style="color:#D32F2F;">Purge Account Record Instance</strong>
+                            <p style="font-size:12px; color:#5c5c5c;">This step permanently fires local storage tables and clears tracking hashes.</p>
+                        </div>
+                        <button class="btn-profile-outline" style="color:#D32F2F; border-color:#D32F2F;" onclick="purgeUserData()">Wipe Identity</button>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+
+        <aside class="sidebar right-sidebar">
+            <div class="right-widget" style="padding-top: 20px;">
+                <div style="font-size: 12px; font-weight: 600; color: #5c5c5c; margin-bottom: 16px; text-transform: uppercase;">Popular Communities</div>
+                <ul class="community-list">
+                    <li class="community-item" onclick="openCommunityPage('r/AskReddit')">
+                        <div class="comm-avatar" style="background: #99DDFF; color:#1c1c1c;">👽</div>
+                        <div class="comm-info"><strong>r/AskReddit</strong><span>58,713,100 members</span></div>
+                    </li>
+                    <li class="community-item" onclick="openCommunityPage('r/leagueoflegends')">
+                        <div class="comm-avatar" style="background: #112233; color: #00CCFF;">L</div>
+                        <div class="comm-info"><strong>r/leagueoflegends</strong><span>8,384,910 members</span></div>
+                    </li>
+                    <li class="community-item" onclick="openCommunityPage('r/OutOfTheLoop')">
+                        <div class="comm-avatar" style="background: #445566;">🔄</div>
+                        <div class="comm-info"><strong>r/OutOfTheLoop</strong><span>3,695,458 members</span></div>
+                    </li>
+                    <li class="community-item" onclick="openCommunityPage('r/discordapp')">
+                        <div class="comm-avatar" style="background: #0000FF;">👾</div>
+                        <div class="comm-info"><strong>r/discordapp</strong><span>1,514,906 members</span></div>
+                    </li>
+                    <li class="community-item" onclick="openCommunityPage('r/Twitch')">
+                        <div class="comm-avatar" style="background: #9146FF;">🟣</div>
+                        <div class="comm-info"><strong>r/Twitch</strong><span>2,876,716 members</span></div>
+                    </li>
+                </ul>
+                <a href="#" class="see-more" style="margin-top: 8px; display: inline-block;">See more</a>
+            </div>
+            <div class="footer-links">
+                <a href="#">SEEKERS Rules</a> <a href="#">Privacy Policy</a> <a href="#">User Agreement</a>
+                <br><a href="#">Accessibility</a>
+                <p>SEEKERS, Inc. © 2026. All rights reserved.</p>
+            </div>
+        </aside>
+
+    </div>
+
+    <div id="auth-modal" class="floating-modal-overlay">
+        <div class="floating-modal-content">
+            <div class="modal-header">
+                <div class="header-left">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G" width="18">
+                    <span id="modal-title-text">Sign in to SEEKERS with Google</span>
+                </div>
+                <button class="close-btn" onclick="closeModal('auth-modal')">✖</button>
+            </div>
+            <div class="modal-body auth-form-body">
+                <div id="google-preview-section" style="display: none; width: 100%;">
+                    <div class="account-preview">
+                        <div class="avatar">P</div>
+                        <div class="account-info">
+                            <strong>Prajjwal Maurya</strong>
+                            <span>prajjwal5655@gmail.com</span>
+                        </div>
+                    </div>
+                    <button class="btn-google-continue" onclick="completeLogin('Prajjwal Maurya', 'prajjwal5655@gmail.com')">Continue as Prajjwal</button>
+                    <p class="terms">To create your account, Google will share your name, email address, and profile picture with SEEKERS.</p>
+                    <p class="auth-switch-text" style="text-align:center;">Prefer to manually Log In? <a href="#" onclick="openAuthModal('login')">Click here</a></p>
+                </div>
+                <div id="manual-auth-section" style="width: 100%;">
+                    <p id="auth-error"></p>
+                    <input type="text" id="auth-username" class="auth-input" placeholder="Choose a Username">
+                    <input type="email" id="auth-email" class="auth-input" placeholder="Email Address">
+                    <input type="password" id="auth-password" class="auth-input" placeholder="Password">
+                    <button id="auth-submit-btn" class="btn-google-continue" onclick="processAuth()">Log In</button>
+                    <p class="auth-switch-text" style="text-align:center;">
+                        <span id="auth-switch-prompt">New to SEEKERS?</span> 
+                        <a href="#" id="auth-switch-link" onclick="toggleAuthMode(event)">Sign Up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="user-action-modal" class="floating-modal-overlay">
+        <div class="floating-modal-content" style="width: 300px; padding-bottom: 12px;">
+            <div class="modal-header">
+                <span id="action-modal-title">User Options</span>
+                <button class="close-btn" onclick="closeModal('user-action-modal')">✖</button>
+            </div>
+            <div class="modal-body" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                    <div class="avatar" id="action-user-avatar" style="width:40px; height:40px;">U</div>
+                    <div style="display: flex; flex-direction: column;">
+                        <strong id="action-username" style="font-size: 16px;">username</strong>
+                        <span style="font-size: 12px; color: #878A8C;">SEEKERS Member</span>
+                    </div>
+                </div>
+                <button id="btn-action-view-profile" class="btn-google-continue" style="background: white; color: #1c1c1c; border: 1px solid #1c1c1c;" onclick="viewActionUserProfile()">View Profile</button>
+                <button id="btn-action-follow" class="btn-google-continue" style="background: #F2F2F2; color: #1c1c1c; border: 1px solid #CCC;" onclick="toggleFollow()">Follow</button>
+                <button id="btn-action-request" class="btn-google-continue" style="background: #1c1c1c;" onclick="sendFriendRequest()">Send Friend Request</button>
+                <button id="btn-action-add-group" class="btn-google-continue" style="background: #1c1c1c; display: none;" onclick="confirmAddGroup()">Add to Community Chat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-profile-modal" class="floating-modal-overlay">
+        <div class="floating-modal-content" style="width: 500px; max-width: 90%;">
+            <div class="modal-header">
+                <span>Edit intro</span>
+                <button class="close-btn" onclick="closeModal('edit-profile-modal')">✖</button>
+            </div>
+            <div class="modal-body" style="padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 70vh; overflow-y: auto;">
+                <div>
+                    <label style="font-size: 12px; color: #5c5c5c; font-weight: bold;">Full Name *</label>
+                    <input type="text" id="edit-name" class="auth-input" style="margin-top: 4px;">
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: #5c5c5c; font-weight: bold;">Pronouns</label>
+                    <input type="text" id="edit-pronouns" class="auth-input" placeholder="e.g., He/Him" style="margin-top: 4px;">
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: #5c5c5c; font-weight: bold;">Bio / Headline *</label>
+                    <textarea id="edit-bio" class="auth-input" style="margin-top: 4px; height: 80px; resize: none; font-family: inherit;"></textarea>
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: #5c5c5c; font-weight: bold;">Location</label>
+                    <input type="text" id="edit-location" class="auth-input" placeholder="City, State, Country" style="margin-top: 4px;">
+                </div>
+                <div>
+                    <label style="font-size: 12px; color: #5c5c5c; font-weight: bold;">Contact Email</label>
+                    <input type="email" id="edit-email" class="auth-input" style="margin-top: 4px;">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
+                    <button class="btn-profile-outline" onclick="closeModal('edit-profile-modal')">Cancel</button>
+                    <button class="btn-profile-primary" onclick="saveProfileChanges()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="chatbot-toggle-btn" onclick="toggleChatbot()">🤖</button>
+    <div id="chatbot-widget" class="chatbot-hidden">
+        <div class="chatbot-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="avatar" style="width:24px; height:24px; font-size:12px; background:white; color:#1c1c1c;">🤖</div>
+                <strong>SeekerBot</strong>
+            </div>
+            <button class="close-btn" onclick="toggleChatbot()" style="color:white;">✖</button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="bot-msg">Hi there! I'm SeekerBot. How can I help you today, my project manager?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input-field" placeholder="Ask me anything..." onkeypress="handleBotKeyPress(event)">
+            <button onclick="sendBotMessage()">➤</button>
+        </div>
+    </div>
+
+    <script src="p3.js"></script>
+</body>
+</html>
